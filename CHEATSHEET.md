@@ -1,125 +1,115 @@
-# 📖 Complete Neovim & Terminal Cheat Sheet
+# ⚡ Neovim & Development Master Cheat Sheet
 
-Every single command, keybinding, and shortcut in your setup — with exact instructions on **how to open** and **how to close** each window, panel, and feature.
-
----
-
-## 📑 Table of Contents
-1. [General: Save, Quit & Close Everything](#1-general-save-quit--close-everything)
-2. [Panels & Sidebars: How to Open & Close](#2-panels--sidebars-how-to-open--close)
-3. [Running & Executing Code](#3-running--executing-code)
-4. [Formatting Code (VS Code Style)](#4-formatting-code-vs-code-style)
-5. [Search & Jump (Telescope & Flash)](#5-search--jump-telescope--flash)
-6. [Window Splits & Navigation](#6-window-splits--navigation)
-7. [Tabs & Buffers](#7-tabs--buffers)
-8. [Git & LazyGit](#8-git--lazygit)
-9. [Terminal in Neovim & Terminal CLI](#9-terminal-in-neovim--terminal-cli)
-10. [Editing Tricks & Registers](#10-editing-tricks--registers)
-11. [Troubleshooting & Fixes](#11-troubleshooting--fixes)
+A comprehensive reference for keybindings, workflows, competitive programming, and tools in **[xnocode/nvim](https://github.com/xnocode/nvim)**.
 
 ---
 
-## 1. General: Save, Quit & Close Everything
+## 1. File Tree Navigation (`nvim-tree`)
 
-| Command | Action |
-| :--- | :--- |
-| `:w` | **Save** current file |
-| `:q` | **Close** current window / panel |
-| `:q!` | **Force close** without saving changes |
-| `:wq` or `:x` | **Save and exit** current file |
-| `:qa!` | **Force close all windows** and completely exit Neovim |
-| `<C-w> c` | **Close** currently focused split / window |
-| `<C-w> o` (or `:only`) | **Close ALL other splits**, keeping only active window |
-
----
-
-## 2. Panels & Sidebars: How to Open & Close
-
-Every panel in your setup has a simple toggle key:
-
-### 🗂️ File Manager Sidebar (`NvimTree`)
-| Action | Key |
-| :--- | :--- |
-| **Open / Close (Toggle)** | **`<Space> e`** or **`Ctrl + b`** |
-| **Close from inside** | Press **`q`** |
-| **Locate active file in tree** | **`<Space> f e`** |
-| *Inside tree:* Open file | `Enter` or `o` |
-| *Inside tree:* Add new file/folder | `a` *(type `file.py` or `folder/`)* |
-| *Inside tree:* Move to Trash | `d` *(confirms before moving to Trash)* |
-| *Inside tree:* Rename | `r` |
-| *Inside tree:* Cut / Copy / Paste | `x` / `c` / `p` |
-| *Inside tree:* Toggle hidden files | `H` *(Shift + h)* |
-| *Inside tree:* Collapse all folders | `W` *(Shift + w)* |
-
----
-
-### 📜 Code Outline & Function List (`Aerial`)
-| Action | Key |
-| :--- | :--- |
-| **Open / Close (Toggle)** | **`<Space> o`** *(or `<Space> c o`)* |
-| **Close from inside** | Press **`q`** |
-| **Floating Symbol Navigator** | **`<Space> O`** *(Shift + o)* |
-| *Inside outline:* Jump to function | `Enter` |
-| *Inside outline:* Browse symbols | `j` (down), `k` (up) |
-
----
-
-### 🕒 Undotree (Visual Time Machine)
-| Action | Key |
-| :--- | :--- |
-| **Open / Close (Toggle)** | **`<Space> u`** |
-| **Close from inside** | Press **`q`** |
-| *Inside tree:* Browse timeline | `j` (down), `k` (up) |
-| *Inside tree:* Revert to past state | `Enter` |
-
----
-
-### 🔍 Telescope File Browser (Floating Popup)
-| Action | Key |
-| :--- | :--- |
-| **Open** | **`s f`** |
-| **Close** | Press **`Esc`** or **`q`** |
-| *Inside popup:* Move to Trash | `d` *(then `y` to confirm)* |
-| *Inside popup:* Create new file | `N` |
-| *Inside popup:* Go up to parent folder | `h` |
-
----
-
-### 🧘 Zen Mode (Distraction-Free)
-| Action | Key |
-| :--- | :--- |
-| **Turn ON / OFF (Toggle)** | **`<Space> z`** |
-
----
-
-## 3. Running & Executing Code
-
-Execute C++, Python, JavaScript, Rust, Bash, and Fish directly inside Neovim:
-
-| Key | Action | How to Close |
+| Action | Key | Description / How to Close |
 | :--- | :--- | :--- |
-| **`F5`** | **Save & Run Code** in split window | Press **`<Space> r q`** or click split and press **`q`** |
-| **`<Space> r r`** | Same as `F5` (Save & Run) | Press **`<Space> r q`** |
-| **`<Space> r f`** | Run current file directly | Press **`<Space> r q`** |
-| **`<Space> r q`** | **Close the Code Runner window** | — |
-| **`<Space> r c`** | Alternative: Close Runner window | — |
+| **Toggle File Tree** | **`<Space> e`** | Open or close the sidebar file tree |
+| **Focus File Tree** | **`<Space> f e`** | Switch cursor into the tree without toggling |
+| **Open File / Folder** | **`Enter`** or **`o`** | Open selected file or expand directory |
+| **Create New File** | **`a`** | Prompts for filename *(type `folder/file.cpp` to create subdirs)* |
+| **Rename File** | **`r`** | Rename file or folder |
+| **Delete File (Trash)** | **`d`** | Move file to Trash safely |
+| **Cut / Copy / Paste** | **`x`** / **`c`** / **`p`** | Clipboard operations inside the file tree |
+| **Refresh Tree** | **`R`** | Re-read filesystem changes |
+| **Close Tree** | **`q`** | Closes the file tree window |
 
 ---
 
-## 4. Formatting Code (VS Code Style)
+## 2. 🏆 Competitive Programming & Submissions (`CompetiTest`)
+*For Codeforces, AtCoder, CSES, and general competitive programming.*
 
-Auto-arranges messy code into clean, indented structure (4 spaces for C++/Python, 2 for web):
+### ⚡ Running Tests:
+| Shortcut | Action | Description |
+| :--- | :--- | :--- |
+| **`<Space> t r`** | **Run All Test Cases** | Opens visual popup with diffs (AC / WA / TLE) *(Press `q` or `Esc` to close)* |
+| **`<Space> t a`** | **Add Custom Test Case** | Enter custom input & expected output |
+| **`<Space> t e`** | **Edit Existing Test Case** | Modify an existing test case |
+| **`<Space> t d`** | **Delete Test Case** | Remove a test case |
+| **`<Space> t u`** | **Toggle Test Results UI** | Reopen the test results window *(Press `q` to close)* |
 
-| Key | Action |
+### 🚀 Submissions:
+| Shortcut / Command | Action | Description |
+| :--- | :--- | :--- |
+| **`<Space> s`** or **`<Space> t s`** | **Smart Universal Submit** | **Auto-detects** whether your file is Codeforces or AtCoder and runs the right submitter! |
+| **`<Space> c s`** | **Submit to Codeforces** | Direct terminal popup with live polling verdict (`✔ ACCEPTED` / `WA`) |
+| **`<Space> a s`** | **Submit to AtCoder** | Opens Chrome with auto-selected compiler, auto-filled code & auto-submit |
+| **`:Submit`** | **Command: Universal Submit** | Submit current file from command line |
+| **`:AtCoderSubmit`** | **Command: AtCoder Submit** | Submit to AtCoder from command line |
+
+### 🔄 Multi-Language Switching (Same Problem):
+| Shortcut | Action |
 | :--- | :--- |
-| **`:w`** | **Automatic Format on Save** (happens whenever you save) |
-| **`Alt + Shift + F`** | **Format Document** *(exact VS Code shortcut)* |
-| **`<Space> c f`** | Format Document (Neovim shortcut) |
-| **`:Format`** or **`:LazyFormat`** | Command-mode formatting |
+| **`<Space> t c`** | Switch to / Create **C++** file (`.cpp`) in the same problem folder |
+| **`<Space> t p`** | Switch to / Create **Python** file (`.py`) in the same problem folder |
+| **`<Space> t g`** | Switch to / Create **Rust** file (`.rs`) in the same problem folder |
+
+### 📦 Syncing Solutions to GitHub (`cp-sync`):
+In your terminal:
+```bash
+cp-sync              # Automatically counts solved problems, updates README.md, and pushes to GitHub!
+cp-sync "commit msg" # Custom commit message
+```
+*(Your repository `github.com/xnocode/cp` stays 100% private and automatically updates statistics via pre-commit hooks and GitHub Actions).*
 
 ---
 
-## 5. Search & Jump (Telescope & Flash)
+## 3. 🟡 LeetCode Inside Neovim (`leetcode.nvim`)
+
+| Shortcut / Command | Action | How to Close |
+| :--- | :--- | :--- |
+| **`<Space> L`** | **Open LeetCode Dashboard** (`:Leet`) | Press `<Space> l q` |
+| **`<Space> l t`** | **Run Test Cases** on current problem (`:Leet test`) | Press `q` |
+| **`<Space> l s`** | **Submit Solution** to LeetCode (`:Leet submit`) | Press `q` |
+| **`<Space> l d`** | Show Problem Description (`:Leet desc`) | Press `q` |
+| **`<Space> l l`** | List All Problems (`:Leet list`) | Press `Esc` |
+| **`<Space> l r`** | Pick Random Problem (`:Leet random`) | — |
+| **`<Space> l c`** | **Switch Language** (C++, Python, Rust, Java, Go...) (`:Leet lang`) | — |
+| **`<Space> l q`** | **Exit LeetCode Session** (`:Leet exit`) | — |
+
+---
+
+## 4. ⏱️ WakaTime Coding Tracker
+
+Tracks your daily coding time and active languages in the background:
+
+| Element / Command | Action | Description |
+| :--- | :--- | :--- |
+| **Statusline Display** | **`󱑆 25 mins`** *(Cyan)* | Live coding time today shown right alongside your code in the statusline |
+| **`:WakaTimeToday`** | Check Today's Time | Displays cumulative coding time today in the command area |
+| **`:WakaTimeApiKey`** | Check / Update Key | Displays or configures your WakaTime API key |
+
+---
+
+## 5. 📜 Text Wrapping & Visual Line Navigation
+
+| Feature / Key | Action | Description |
+| :--- | :--- | :--- |
+| **Permanent Auto-Wrap** | Always ON | Lines wrap smoothly without breaking words (`linebreak = true`, `breakindent = true`) |
+| **`j` / `k`** | Visual Movement | Moves smoothly up/down across wrapped lines without skipping |
+| **`↓` / `↑`** | Visual Movement | Arrow keys also follow visual lines |
+| **`0` / `$`** | Physical Beginning / End | Jumps to beginning / end of physical file line |
+| **`g 0` / `g $`** | Visual Beginning / End | Jumps to beginning / end of wrapped visual line on screen |
+| **`<Space> u w`** | Toggle Wrap | Turn line wrap on or off on the fly (`:set wrap!`) |
+
+---
+
+## 6. Code Execution & Runners
+
+| Language | Shortcut | Action |
+| :--- | :--- | :--- |
+| **C++** | **`<Space> r`** | Compiles with `g++ -std=c++20` and runs in floating terminal |
+| **Python** | **`<Space> r`** | Runs using system Python in floating terminal |
+| **Rust** | **`<Space> r`** | Runs with `rustc` or `cargo run` |
+| **General** | **`<Space> R`** | Interactive code runner menu |
+
+---
+
+## 7. Search & Jump (Telescope & Flash)
 
 ### ⚡ Flash.nvim (Cursor Teleportation)
 | Action | Key |
@@ -128,7 +118,7 @@ Auto-arranges messy code into clean, indented structure (4 spaces for C++/Python
 | **Cancel Jump** | Press **`Esc`** |
 | **Select Code Block / Treesitter** | Press **`S`** *(Shift + s)* |
 
-### 🔭 Telescope Project Search
+### 🔭 Telescope Search
 | Action | Key | How to Close |
 | :--- | :--- | :--- |
 | **Find File by Name** | **`; f`** | Press **`Esc`** |
@@ -141,166 +131,62 @@ Auto-arranges messy code into clean, indented structure (4 spaces for C++/Python
 
 ---
 
-## 6. Window Splits & Navigation
+## 8. Window Splits & Tabs
 
-Split your screen into multiple panes and move between them:
-
+### Window Splits:
 | Action | Key | How to Close |
 | :--- | :--- | :--- |
-| **Split Horizontally** | **`s s`** | Type `:q` or `<C-w>c` |
-| **Split Vertically** | **`s v`** | Type `:q` or `<C-w>c` |
-| **Move Left** | **`s h`** | — |
-| **Move Right** | **`s l`** | — |
-| **Move Down** | **`s j`** | — |
-| **Move Up** | **`s k`** | — |
+| **Split Horizontally** | **`s s`** | `:q` or `<C-w>c` |
+| **Split Vertically** | **`s v`** | `:q` or `<C-w>c` |
+| **Move Left / Right / Down / Up** | **`s h`** / **`s l`** / **`s j`** / **`s k`** | — |
 | **Close Active Split** | **`<C-w> c`** or **`:q`** | — |
 | **Close All Splits Except Active** | **`:only`** or **`<C-w> o`** | — |
 
----
-
-## 7. Tabs & Buffers
-
-| Key | Action | How to Close |
-| :--- | :--- | :--- |
-| **`t e`** | Create **New Tab** | Type `:tabclose` |
-| **`Tab`** | Next Tab | — |
-| **`Shift + Tab`** | Previous Tab | — |
-| **`:tabclose`** | **Close current tab** | — |
-| **`<Space> b d`** | **Close/delete current buffer** without closing split | — |
-
----
-
-## 8. Git & LazyGit
-
-### Inside Neovim:
-| Action | Key | How to Close |
-| :--- | :--- | :--- |
-| **Open LazyGit TUI** | **`<Space> g g`** | Press **`q`** |
-| *Inside LazyGit:* Stage file | `Space` | — |
-| *Inside LazyGit:* Stage all files | `a` | — |
-| *Inside LazyGit:* Commit | `c` *(type message + Enter)* | — |
-| *Inside LazyGit:* Push to GitHub | `P` *(Shift + p)* | — |
-| *Inside LazyGit:* Discard / Undo delete | `d` | — |
-| *Inside LazyGit:* **Quit LazyGit** | **`q`** | Returns directly to code |
-
-### In Terminal (Fish or Bash):
-| Command | Action |
-| :--- | :--- |
-| `gp "commit message"` | **One-command:** Stages all files, commits, and pushes to GitHub |
-| `lg` | Opens LazyGit visual interface in terminal *(press `q` to exit)* |
-
----
-
-## 9. Terminal in Neovim & Terminal CLI
-
-### Embedded Terminal Splits (`ToggleTerm`):
-| Action | Key | How to Close |
-| :--- | :--- | :--- |
-| **Toggle Terminal (Open / Close)** | **`Ctrl + \`** | Press **`Ctrl + \`** again or type `exit` |
-| **Bottom Split Terminal** | **`<Space> t t`** | Press `Ctrl + \` or type `exit` |
-| **Right Vertical Terminal** | **`<Space> t v`** | Press `Ctrl + \` or type `exit` |
-| **Floating Terminal** | **`<Space> t f`** | Press `Ctrl + \` or type `exit` |
-
-### Terminal CLI (Zoxide Navigation):
-| Command | Action |
-| :--- | :--- |
-| `z <name>` | Jump to frequent folder *(e.g. `z py`, `z cpp`, `z garden`, `z nvim`)* |
-| `zi` | Interactive search menu *(select with arrows + Enter, `Esc` to cancel)* |
-| `source ~/.bashrc` | Reload Bash configuration |
-
----
-
-## 10. Editing Tricks & Registers
-
+### Tabs & Buffers:
 | Key | Action |
 | :--- | :--- |
-| **`Ctrl + a`** | **Select entire file** (all lines) |
-| **`+`** / **`-`** | Increment / Decrement number under cursor |
-| **`d w`** | Delete word backwards |
-| **`<Space> p`** | Paste without overwriting your clipboard register |
-| **`<Space> o`** | Open line below and stay in Normal mode |
-| **`<Space> O`** | Open line above and stay in Normal mode |
-| **`x`** | Delete character without polluting clipboard |
-| **`Ctrl + z`** or **`u`** | **Undo** (works in Normal & Insert mode) |
-| **`Ctrl + y`**, **`Ctrl + Shift + z`**, or **`U`** | **Redo** (works in Normal & Insert mode) |
-| **`Ctrl + r`** | Redo (classic Vim) |
-| **`<Space> u`** | **Visual Undotree** (explore full history timeline) |
+| **`t e`** | Create **New Tab** |
+| **`Tab`** / **`Shift + Tab`** | Next Tab / Previous Tab |
+| **`:tabclose`** | Close current tab |
+| **`<Space> b d`** | Close current buffer without closing window split |
 
 ---
 
-## 11. Troubleshooting & Fixes
+## 9. Git & Terminal Splits
 
-### 🔒 Removing the Lock Icon:
-If a file displays a lock icon (opened Read-Only):
-```vim
-:set noreadonly
-```
-*(or `:set noro`)* and hit Enter.
-
-### ♻️ Restoring an Accidentally Deleted File:
-1. **If buffer is still open in Neovim:** Just type `:w` and press Enter.
-2. **If tracked in Git:** Run `:!git restore <filename>` or press `<Space>gg` $\to$ hover file $\to$ press `d`.
-3. **From Linux Trash Bin:** Open `~/.local/share/Trash/files/` or check desktop Trash.
-
----
-
-*Cheat sheet maintained for [xnocode/nvim](https://github.com/xnocode/nvim).*
-
----
-
-## 12. 🏷️ TODO Comments & Bug Tracker (`todo-comments`)
-
-Highlights comments like `// TODO:`, `// FIXME:`, `// BUG:`, `// NOTE:` in glowing neon colors:
-
-| Shortcut | Action | How to Close |
+### Git in Neovim:
+| Action | Key | Description |
 | :--- | :--- | :--- |
-| **`<Space> s t`** | **Search All TODOs across Project** (Telescope) | Press **`Esc`** |
-| **`<Space> x t`** | Open **TODO Drawer** at bottom (Trouble) | Press **`q`** |
-| **`] t`** | Jump to **Next TODO** in file | — |
-| **`[ t`** | Jump to **Previous TODO** in file | — |
+| **Open LazyGit TUI** | **`<Space> g g`** | Full terminal visual Git interface *(press `q` to exit)* |
+| **Stage File / Commit / Push** | Inside LazyGit: `Space` to stage, `c` to commit, `P` to push | — |
+
+### Terminal Splits (`ToggleTerm`):
+| Action | Key | Description |
+| :--- | :--- | :--- |
+| **Toggle Terminal Split** | **`Ctrl + \`** | Open / Close bottom terminal |
+| **Vertical Terminal Split** | **`<Space> t v`** | Right-side split terminal |
+| **Floating Terminal** | **`<Space> t f`** | Centered floating terminal |
 
 ---
 
-## 13. 🏆 Competitive Programming & Test Runner (`CompetiTest`)
-*For Codeforces, AtCoder, CSES, and general competitive programming.*
+## 10. 🏷️ TODO Comments & Code Outline
 
-Automatically compiles your code, runs all test cases, and opens a split screen showing:
-- 🟩 **Passed (AC)** with execution time in ms
-- 🟥 **Wrong Answer (WA)** with side-by-side diff between Expected Output and Your Output
-- ⏱️ **Time Limit Exceeded (TLE)** / Runtime Error
-
-| Shortcut | Action | How to Close |
+| Shortcut | Action | Description |
 | :--- | :--- | :--- |
-| **`<Space> t r`** | **Run All Test Cases** (Visual popup with diffs) | Press **`q`** or **`Esc`** |
-| **`<Space> t c`** | **Switch to C++** (`.cpp`) in same problem folder | — |
-| **`<Space> t p`** | **Switch to Python** (`.py`) in same problem folder | — |
-| **`<Space> t g`** | **Switch to Rust** (`.rs`) in same problem folder | — |
-| **`<Space> c s`** *(or `ts`)* | **Submit to Codeforces** (Submits via cf-submit with live verdict) | — |
-| **`<Space> a s`** | **Submit to AtCoder** (Submits via official `acc submit`) | Press **`q`** |
-| **`<Space> t a`** | **Add Custom Test Case** (manually enter input & output) | Press **`Esc`** |
-| **`<Space> t e`** | **Edit an Existing Test Case** | Press **`Esc`** |
-| **`<Space> t d`** | **Delete a Test Case** | Press **`Esc`** |
-| **`<Space> t p`** | **Receive Problem from Browser** (via Competitive Companion) | — |
-| **`<Space> t c`** | **Receive Entire Contest from Browser** | — |
-| **`<Space> t u`** | **Toggle Test Results UI** | Press **`q`** |
+| **`<Space> s t`** | **Search All TODOs** | Finds `TODO:`, `FIXME:`, `NOTE:` across project |
+| **`<Space> x t`** | **Open TODO Drawer** | Bottom panel listing all TODOs |
+| **`] t`** / **`[ t`** | **Next / Prev TODO** | Jump between TODOs in current file |
+| **`<Space> a`** | **Code Outline (Aerial)** | Left sidebar showing symbols, classes, and functions |
+| **`<Space> u`** | **Undotree** | Visual undo/redo timeline |
 
 ---
 
-## 14. 🟡 LeetCode Inside Neovim (`leetcode.nvim`)
-*Solve LeetCode problems directly from Neovim.*
+## 11. Useful Tips
 
-| Shortcut | Action | How to Close |
-| :--- | :--- | :--- |
-| **`<Space> L`** | **Open LeetCode Dashboard** (`:Leet`) | Press `<Space> l q` |
-| **`<Space> l t`** | **Run Test Cases** on current problem (`:Leet test`) | Press `q` |
-| **`<Space> l s`** | **Submit Solution** to LeetCode (`:Leet submit`) | Press `q` |
-| **`<Space> l d`** | Show Problem Description (`:Leet desc`) | Press `q` |
-| **`<Space> l l`** | List All Problems (`:Leet list`) | Press `Esc` |
-| **`<Space> l r`** | Pick Random Problem (`:Leet random`) | — |
-| **`<Space> l c`** | **Switch Language** (C++, Python, Rust, Java, Go...) (`:Leet lang`) | — |
-| **`<Space> l q`** | **Exit LeetCode Session** (`:Leet exit`) | — |
+- **Selecting entire file:** Press **`Ctrl + a`**
+- **Undo / Redo:** **`u`** / **`Ctrl + r`** (or **`Ctrl + z`** / **`Ctrl + y`**)
+- **Formatting:** **`<Space> c f`** or type **`:Format`**
+- **Clearing search highlights:** Press **`<Esc>`**
 
-### Text Wrapping & Movement:
-* **Auto-Wrap:** Always ON permanently (`wrap = true`, `linebreak = true`, `breakindent = true`).
-* **Natural Movement:** **`j`** and **`k`** (as well as **`↓`** / **`↑`**) move smoothly across wrapped lines visually.
-* **Toggle Wrap On/Off:** Press **`<Space> u w`** (or type `:set wrap!`).
+---
+*Maintained for [xnocode/nvim](https://github.com/xnocode/nvim).*
