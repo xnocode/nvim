@@ -177,6 +177,13 @@ return {
 	{
 		"folke/snacks.nvim",
 		opts = {
+			picker = {
+				sources = {
+					explorer = {
+						layout = "telescope",
+					},
+				},
+			},
 			dashboard = {
 				preset = {
 					header = [[
@@ -191,6 +198,20 @@ return {
 			},
 		},
 		keys = {
+			{
+				"<leader>e",
+				function()
+					Snacks.picker.explorer({ layout = "telescope" })
+				end,
+				desc = "File Explorer with Live Code Preview (<Space>e)",
+			},
+			{
+				"<C-b>",
+				function()
+					Snacks.picker.explorer({ layout = "telescope" })
+				end,
+				desc = "File Explorer with Live Code Preview (Ctrl+B)",
+			},
 			{ "<leader>h", function() Snacks.dashboard() end, desc = "Home / Dashboard (<Space>h)" },
 			{ "<leader>d", function() Snacks.dashboard() end, desc = "Dashboard (<Space>d)" },
 		},
