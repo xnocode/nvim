@@ -245,3 +245,51 @@ If a file displays a lock icon (opened Read-Only):
 ---
 
 *Cheat sheet maintained for [xnocode/nvim](https://github.com/xnocode/nvim).*
+
+---
+
+## 12. 🏷️ TODO Comments & Bug Tracker (`todo-comments`)
+
+Highlights comments like `// TODO:`, `// FIXME:`, `// BUG:`, `// NOTE:` in glowing neon colors:
+
+| Shortcut | Action | How to Close |
+| :--- | :--- | :--- |
+| **`<Space> s t`** | **Search All TODOs across Project** (Telescope) | Press **`Esc`** |
+| **`<Space> x t`** | Open **TODO Drawer** at bottom (Trouble) | Press **`q`** |
+| **`] t`** | Jump to **Next TODO** in file | — |
+| **`[ t`** | Jump to **Previous TODO** in file | — |
+
+---
+
+## 13. 🏆 Competitive Programming & Test Runner (`CompetiTest`)
+*For Codeforces, AtCoder, CSES, and general competitive programming.*
+
+Automatically compiles your code, runs all test cases, and opens a split screen showing:
+- 🟩 **Passed (AC)** with execution time in ms
+- 🟥 **Wrong Answer (WA)** with side-by-side diff between Expected Output and Your Output
+- ⏱️ **Time Limit Exceeded (TLE)** / Runtime Error
+
+| Shortcut | Action | How to Close |
+| :--- | :--- | :--- |
+| **`<Space> t r`** | **Run All Test Cases** against your code | Press **`q`** or **`Esc`** |
+| **`<Space> t a`** | **Add Custom Test Case** (manually enter input & output) | Press **`Esc`** |
+| **`<Space> t e`** | **Edit an Existing Test Case** | Press **`Esc`** |
+| **`<Space> t d`** | **Delete a Test Case** | Press **`Esc`** |
+| **`<Space> t p`** | **Receive Problem from Browser** (via Competitive Companion) | — |
+| **`<Space> t c`** | **Receive Entire Contest from Browser** | — |
+| **`<Space> t u`** | **Toggle Test Results UI** | Press **`q`** |
+
+---
+
+## 14. 🟡 LeetCode Inside Neovim (`leetcode.nvim`)
+*Solve LeetCode problems directly from Neovim.*
+
+| Shortcut | Action | How to Close |
+| :--- | :--- | :--- |
+| **`<Space> L`** | **Open LeetCode Dashboard** (`:Leet`) | Press `<Space> l q` |
+| **`<Space> l t`** | **Run Test Cases** on current problem (`:Leet test`) | Press `q` |
+| **`<Space> l s`** | **Submit Solution** to LeetCode (`:Leet submit`) | Press `q` |
+| **`<Space> l d`** | Show Problem Description (`:Leet desc`) | Press `q` |
+| **`<Space> l l`** | List All Problems (`:Leet list`) | Press `Esc` |
+| **`<Space> l r`** | Pick Random Problem (`:Leet random`) | — |
+| **`<Space> l q`** | **Exit LeetCode Session** (`:Leet exit`) | — |
