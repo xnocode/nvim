@@ -23,7 +23,7 @@ return {
 		opts = {
 			lang = "cpp",
 			storage = {
-				home = vim.fn.expand("~/Downloads/programming/leetcode"),
+				home = vim.fn.expand("~/Downloads/programming/cp/LeetCode"),
 				cache = vim.fn.stdpath("cache") .. "/leetcode",
 			},
 			logging = true,
