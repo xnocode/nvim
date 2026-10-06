@@ -1,3 +1,32 @@
+local function open_floating_terminal(cmd, title)
+	local width = math.min(100, math.floor(vim.o.columns * 0.85))
+	local height = math.min(28, math.floor(vim.o.lines * 0.8))
+	local row = math.floor((vim.o.lines - height) / 2)
+	local col = math.floor((vim.o.columns - width) / 2)
+
+	local buf = vim.api.nvim_create_buf(false, true)
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		row = row,
+		col = col,
+		width = width,
+		height = height,
+		style = "minimal",
+		border = "rounded",
+		title = " " .. (title or "Terminal") .. " ",
+		title_pos = "center",
+	})
+
+	vim.fn.termopen(cmd, {
+		on_exit = function()
+			vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = buf, silent = true })
+			vim.keymap.set("n", "<Esc>", "<cmd>close<cr>", { buffer = buf, silent = true })
+			vim.keymap.set("t", "<Esc>", "<cmd>close<cr>", { buffer = buf, silent = true })
+		end,
+	})
+	vim.cmd("startinsert")
+end
+
 local function submit_codeforces()
 	local fname = vim.fn.expand("%:p")
 	if fname == "" then
@@ -5,12 +34,8 @@ local function submit_codeforces()
 		return
 	end
 	vim.cmd("silent! write")
-	vim.notify("🚀 Submitting to Codeforces...", vim.log.levels.INFO, { title = "Codeforces Submit" })
-	vim.cmd("split | terminal cf-submit " .. vim.fn.fnameescape(fname))
+	open_floating_terminal("cf-submit " .. vim.fn.fnameescape(fname), "🚀 Codeforces Live Submitter")
 end
-
-
-
 
 local function submit_atcoder()
 	local fname = vim.fn.expand("%:p")
@@ -19,8 +44,7 @@ local function submit_atcoder()
 		return
 	end
 	vim.cmd("silent! write")
-	vim.notify("🚀 Submitting to AtCoder via acc...", vim.log.levels.INFO, { title = "AtCoder CLI" })
-	vim.cmd("split | terminal acc submit " .. vim.fn.fnameescape(fname))
+	open_floating_terminal("acc submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder Live Submitter")
 end
 
 return {
