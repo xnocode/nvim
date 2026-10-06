@@ -183,6 +183,7 @@ Tracks your daily coding time and active languages in the background:
 
 ## 11. Useful Tips
 
+- **Return to Home Page / Dashboard:** Press **`<Space> h`** (or **`<Space> d`**, or type **`:Home`**)
 - **Selecting entire file:** Press **`Ctrl + a`**
 - **Undo / Redo:** **`u`** / **`Ctrl + r`** (or **`Ctrl + z`** / **`Ctrl + y`**)
 - **Formatting:** **`<Space> c f`** or type **`:Format`**

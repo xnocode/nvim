@@ -190,5 +190,17 @@ return {
 				},
 			},
 		},
+		keys = {
+			{ "<leader>h", function() Snacks.dashboard() end, desc = "Home / Dashboard (<Space>h)" },
+			{ "<leader>d", function() Snacks.dashboard() end, desc = "Dashboard (<Space>d)" },
+		},
+		init = function()
+			vim.api.nvim_create_user_command("Home", function()
+				Snacks.dashboard()
+			end, { desc = "Go to Home / Dashboard" })
+			vim.api.nvim_create_user_command("Dashboard", function()
+				Snacks.dashboard()
+			end, { desc = "Go to Dashboard" })
+		end,
 	},
 }
