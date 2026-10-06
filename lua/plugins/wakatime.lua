@@ -27,6 +27,9 @@ return {
 	{
 		"wakatime/vim-wakatime",
 		lazy = false,
+		opts = {
+			status_bar_enabled = false,
+		},
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -34,7 +37,15 @@ return {
 			opts.sections = opts.sections or {}
 			opts.sections.lualine_x = opts.sections.lualine_x or {}
 
-			-- Insert WakaTime live timer component into lualine_x
+			-- Remove any plain/duplicate wakatime component from lualine_x
+			for i = #opts.sections.lualine_x, 1, -1 do
+				local comp = opts.sections.lualine_x[i]
+				if type(comp) == "table" and comp.__wakatime_statusline then
+					table.remove(opts.sections.lualine_x, i)
+				end
+			end
+
+			-- Insert single, beautifully styled WakaTime component with clock icon
 			table.insert(opts.sections.lualine_x, 1, {
 				function()
 					if wakatime_cache ~= "" then
