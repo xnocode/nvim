@@ -299,3 +299,8 @@ Automatically compiles your code, runs all test cases, and opens a split screen 
 | **`<Space> l r`** | Pick Random Problem (`:Leet random`) | — |
 | **`<Space> l c`** | **Switch Language** (C++, Python, Rust, Java, Go...) (`:Leet lang`) | — |
 | **`<Space> l q`** | **Exit LeetCode Session** (`:Leet exit`) | — |
+
+### Text Wrapping & Movement:
+* **Auto-Wrap:** Always ON permanently (`wrap = true`, `linebreak = true`, `breakindent = true`).
+* **Natural Movement:** **`j`** and **`k`** (as well as **`↓`** / **`↑`**) move smoothly across wrapped lines visually.
+* **Toggle Wrap On/Off:** Press **`<Space> u w`** (or type `:set wrap!`).
