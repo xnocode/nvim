@@ -55,6 +55,7 @@ return {
 		end,
 		keys = {
 			{ "<leader>tr", "<cmd>CompetiTest run<cr>", desc = "Run Test Cases (Visual Popup)" },
+			{ "<leader>cs", submit_codeforces, desc = "Submit to Codeforces (cs)" },
 			{ "<leader>ts", submit_codeforces, desc = "Submit to Codeforces (via Browser Bridge)" },
 			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (via acc submit)" },
 			{ "<leader>ta", "<cmd>CompetiTest add_testcase<cr>", desc = "Add Custom Test Case" },
