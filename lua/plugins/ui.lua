@@ -180,7 +180,12 @@ return {
 			picker = {
 				sources = {
 					explorer = {
-						layout = "telescope",
+						auto_close = true,
+						jump = { close = true },
+						layout = {
+							preset = "default",
+							preview = true,
+						},
 					},
 				},
 			},
@@ -201,14 +206,28 @@ return {
 			{
 				"<leader>e",
 				function()
-					Snacks.picker.explorer({ layout = "telescope" })
+					Snacks.picker.explorer({
+						auto_close = true,
+						jump = { close = true },
+						layout = {
+							preset = "default",
+							preview = true,
+						},
+					})
 				end,
 				desc = "File Explorer with Live Code Preview (<Space>e)",
 			},
 			{
 				"<C-b>",
 				function()
-					Snacks.picker.explorer({ layout = "telescope" })
+					Snacks.picker.explorer({
+						auto_close = true,
+						jump = { close = true },
+						layout = {
+							preset = "default",
+							preview = true,
+						},
+					})
 				end,
 				desc = "File Explorer with Live Code Preview (Ctrl+B)",
 			},
