@@ -44,29 +44,25 @@ local function submit_atcoder()
 		return
 	end
 	vim.cmd("silent! write")
-
-	-- Check for .problem.json metadata to get exact task URL
-	local fdir = vim.fn.expand("%:p:h")
-	local meta_file = fdir .. "/.problem.json"
-	local url = nil
-	if vim.fn.filereadable(meta_file) == 1 then
-		pcall(function()
-			local data = vim.fn.json_decode(table.concat(vim.fn.readfile(meta_file), "\n"))
-			if data and data.url and data.url ~= "" then
-				url = data.url
-			end
-		end)
-	end
-
-	local cmd
-	if url then
-		cmd = "oj submit " .. vim.fn.fnameescape(url) .. " " .. vim.fn.fnameescape(fname) .. " -y"
-	else
-		cmd = "acc submit " .. vim.fn.fnameescape(fname)
-	end
-
-	open_floating_terminal(cmd, "⚡ AtCoder")
+	open_floating_terminal("atcoder-submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder")
 end
+
+local function universal_submit()
+	local fname = vim.fn.expand("%:p")
+	if fname == "" then
+		vim.notify("⚠️ Please save your file before submitting.", vim.log.levels.WARN)
+		return
+	end
+	if fname:find("/AtCoder/") or fname:lower():find("atcoder") then
+		submit_atcoder()
+	else
+		submit_codeforces()
+	end
+end
+
+vim.api.nvim_create_user_command("AtCoderSubmit", submit_atcoder, { desc = "Submit solution to AtCoder" })
+vim.api.nvim_create_user_command("CodeforcesSubmit", submit_codeforces, { desc = "Submit solution to Codeforces" })
+vim.api.nvim_create_user_command("Submit", universal_submit, { desc = "Universal Submit (Codeforces / AtCoder)" })
 
 -- Helper to switch/create another language file in the same problem folder
 local function switch_problem_lang(target_ext)
@@ -138,9 +134,10 @@ return {
 		dependencies = { "MunifTanjim/nui.nvim" },
 		keys = {
 			{ "<leader>tr", "<cmd>CompetiTest run<cr>", desc = "Run Test Cases (Visual Popup)" },
-			{ "<leader>cs", submit_codeforces, desc = "Submit to Codeforces (cs)" },
-			{ "<leader>ts", submit_codeforces, desc = "Submit to Codeforces" },
-			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (acc submit)" },
+			{ "<leader>cs", submit_codeforces, desc = "Submit to Codeforces (<Space>cs)" },
+			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (<Space>as)" },
+			{ "<leader>ts", universal_submit, desc = "Smart Submit (<Space>ts)" },
+			{ "<leader>s",  universal_submit, desc = "Smart Submit (<Space>s)" },
 			{ "<leader>ta", "<cmd>CompetiTest add_testcase<cr>", desc = "Add Custom Test Case" },
 			{ "<leader>te", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit Test Case" },
 			{ "<leader>td", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete Test Case" },
