@@ -5,9 +5,10 @@ local function submit_codeforces()
 		return
 	end
 	vim.cmd("silent! write")
-	vim.notify("🚀 Submitting to Codeforces via cf-tool...", vim.log.levels.INFO, { title = "Codeforces CLI" })
-	vim.cmd("split | terminal cf submit -f " .. vim.fn.fnameescape(fname))
+	vim.notify("🚀 Submitting to Codeforces...", vim.log.levels.INFO, { title = "Codeforces Submit" })
+	vim.cmd("split | terminal cf-submit " .. vim.fn.fnameescape(fname))
 end
+
 
 
 
