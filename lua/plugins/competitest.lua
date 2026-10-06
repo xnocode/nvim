@@ -44,7 +44,28 @@ local function submit_atcoder()
 		return
 	end
 	vim.cmd("silent! write")
-	open_floating_terminal("acc submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder")
+
+	-- Check for .problem.json metadata to get exact task URL
+	local fdir = vim.fn.expand("%:p:h")
+	local meta_file = fdir .. "/.problem.json"
+	local url = nil
+	if vim.fn.filereadable(meta_file) == 1 then
+		pcall(function()
+			local data = vim.fn.json_decode(table.concat(vim.fn.readfile(meta_file), "\n"))
+			if data and data.url and data.url ~= "" then
+				url = data.url
+			end
+		end)
+	end
+
+	local cmd
+	if url then
+		cmd = "oj submit " .. vim.fn.fnameescape(url) .. " " .. vim.fn.fnameescape(fname) .. " -y"
+	else
+		cmd = "acc submit " .. vim.fn.fnameescape(fname)
+	end
+
+	open_floating_terminal(cmd, "⚡ AtCoder")
 end
 
 -- Helper to switch/create another language file in the same problem folder
@@ -60,49 +81,54 @@ local function switch_problem_lang(target_ext)
 	vim.notify("📁 Switched to " .. target_ext:upper() .. ": " .. vim.fn.fnamemodify(target_file, ":t"), vim.log.levels.INFO, { title = "CP Language Switcher" })
 end
 
--- Helper to dynamically route and tag problem paths
+-- Helper to dynamically route and tag problem paths using human-readable names (e.g. A. Watermelon)
 local function resolve_received_problem_path(task, file_extension)
 	local judge = "Other"
-	local problem_code = task.name or "problem"
+	local problem_name = task.name or "problem"
+	local problem_code = problem_name
 
 	if task.url then
 		local url = task.url
-		-- Codeforces contest problem: /contest/4/problem/A
-		local cf_c, cf_p = url:match("codeforces%.com/contest/(%d+)/problem/([%w]+)")
-		if not cf_c then
-			-- Codeforces problemset problem: /problemset/problem/4/A
-			cf_c, cf_p = url:match("codeforces%.com/problemset/problem/(%d+)/([%w]+)")
-		end
-		if cf_c and cf_p then
+		if url:match("codeforces%.com") then
 			judge = "Codeforces"
-			problem_code = cf_c .. cf_p:upper()
+			local cf_c, cf_p = url:match("contest/(%d+)/problem/([%w]+)")
+			if not cf_c then
+				cf_c, cf_p = url:match("problemset/problem/(%d+)/([%w]+)")
+			end
+			if cf_c and cf_p then
+				problem_code = cf_c .. cf_p:upper()
+			end
 		elseif url:match("atcoder%.jp") then
 			judge = "AtCoder"
 			local ac_task = url:match("tasks/([%w_]+)")
 			if ac_task then
 				problem_code = ac_task
 			end
+		elseif url:match("leetcode%.com") then
+			judge = "LeetCode"
 		end
 	end
 
 	local homedir = vim.loop.os_homedir()
-	local dir = string.format("%s/Downloads/programming/cp/%s/%s", homedir, judge, problem_code)
+	-- Clean invalid characters from filename
+	local safe_name = problem_name:gsub("[\\/:*?\"<>|]", "_")
+	local dir = string.format("%s/Downloads/programming/cp/%s/%s", homedir, judge, safe_name)
 	vim.fn.mkdir(dir, "p")
 
-	-- Write .problem.json metadata file so submitters always know the exact problem code
+	-- Save .problem.json metadata file so all submitters (Codeforces & AtCoder) know exact problem code & URL
 	local meta_file = dir .. "/.problem.json"
 	local f = io.open(meta_file, "w")
 	if f then
 		f:write(vim.fn.json_encode({
 			code = problem_code,
-			name = task.name or problem_code,
+			name = problem_name,
 			judge = judge,
 			url = task.url or "",
 		}))
 		f:close()
 	end
 
-	return string.format("%s/%s.%s", dir, problem_code, file_extension)
+	return string.format("%s/%s.%s", dir, safe_name, file_extension)
 end
 
 return {
@@ -133,9 +159,9 @@ return {
 			open_received_problems = true,
 			open_received_contests = true,
 			replace_received_testcases = true,
-			received_problems_prompt_path = false,
+			received_problems_prompt_path = true, -- Prompts the path when downloading so you can choose/change the extension (cpp/py/rs)
 			received_contests_prompt_directory = false,
-			received_contests_prompt_extension = false,
+			received_contests_prompt_extension = true, -- Prompts file extension when downloading full contests
 			received_files_extension = "cpp",
 			received_problems_path = resolve_received_problem_path,
 			received_contests_directory = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(CONTEST)",
