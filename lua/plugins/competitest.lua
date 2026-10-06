@@ -34,7 +34,7 @@ local function submit_codeforces()
 		return
 	end
 	vim.cmd("silent! write")
-	open_floating_terminal("cf-submit " .. vim.fn.fnameescape(fname), "🚀 Codeforces Live Submitter")
+	open_floating_terminal("cf-submit " .. vim.fn.fnameescape(fname), "🚀 Codeforces")
 end
 
 local function submit_atcoder()
@@ -44,7 +44,7 @@ local function submit_atcoder()
 		return
 	end
 	vim.cmd("silent! write")
-	open_floating_terminal("acc submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder Live Submitter")
+	open_floating_terminal("acc submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder")
 end
 
 -- Helper to switch/create another language file in the same problem folder
@@ -58,6 +58,51 @@ local function switch_problem_lang(target_ext)
 	local target_file = no_ext .. "." .. target_ext
 	vim.cmd("edit " .. vim.fn.fnameescape(target_file))
 	vim.notify("📁 Switched to " .. target_ext:upper() .. ": " .. vim.fn.fnamemodify(target_file, ":t"), vim.log.levels.INFO, { title = "CP Language Switcher" })
+end
+
+-- Helper to dynamically route and tag problem paths
+local function resolve_received_problem_path(task, file_extension)
+	local judge = "Other"
+	local problem_code = task.name or "problem"
+
+	if task.url then
+		local url = task.url
+		-- Codeforces contest problem: /contest/4/problem/A
+		local cf_c, cf_p = url:match("codeforces%.com/contest/(%d+)/problem/([%w]+)")
+		if not cf_c then
+			-- Codeforces problemset problem: /problemset/problem/4/A
+			cf_c, cf_p = url:match("codeforces%.com/problemset/problem/(%d+)/([%w]+)")
+		end
+		if cf_c and cf_p then
+			judge = "Codeforces"
+			problem_code = cf_c .. cf_p:upper()
+		elseif url:match("atcoder%.jp") then
+			judge = "AtCoder"
+			local ac_task = url:match("tasks/([%w_]+)")
+			if ac_task then
+				problem_code = ac_task
+			end
+		end
+	end
+
+	local homedir = vim.loop.os_homedir()
+	local dir = string.format("%s/Downloads/programming/cp/%s/%s", homedir, judge, problem_code)
+	vim.fn.mkdir(dir, "p")
+
+	-- Write .problem.json metadata file so submitters always know the exact problem code
+	local meta_file = dir .. "/.problem.json"
+	local f = io.open(meta_file, "w")
+	if f then
+		f:write(vim.fn.json_encode({
+			code = problem_code,
+			name = task.name or problem_code,
+			judge = judge,
+			url = task.url or "",
+		}))
+		f:close()
+	end
+
+	return string.format("%s/%s.%s", dir, problem_code, file_extension)
 end
 
 return {
@@ -92,7 +137,7 @@ return {
 			received_contests_prompt_directory = false,
 			received_contests_prompt_extension = false,
 			received_files_extension = "cpp",
-			received_problems_path = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
+			received_problems_path = resolve_received_problem_path,
 			received_contests_directory = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(CONTEST)",
 			received_contests_problems_path = "$(PROBLEM)/$(PROBLEM).$(FEXT)",
 			compile_directory = ".",
