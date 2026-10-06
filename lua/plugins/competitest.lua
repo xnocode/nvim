@@ -124,7 +124,7 @@ return {
 					{ 5, { { 1, "eo" }, { 1, "se" } } },
 				},
 			},
-			view_output_diff = true,
+			view_output_diff = false,
 			output_compare_method = "squish",
 		},
 	},
