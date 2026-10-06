@@ -221,8 +221,10 @@ Split your screen into multiple panes and move between them:
 | **`<Space> o`** | Open line below and stay in Normal mode |
 | **`<Space> O`** | Open line above and stay in Normal mode |
 | **`x`** | Delete character without polluting clipboard |
-| **`u`** | Undo last change |
-| **`Ctrl + r`** | Redo last change |
+| **`Ctrl + z`** or **`u`** | **Undo** (works in Normal & Insert mode) |
+| **`Ctrl + y`**, **`Ctrl + Shift + z`**, or **`U`** | **Redo** (works in Normal & Insert mode) |
+| **`Ctrl + r`** | Redo (classic Vim) |
+| **`<Space> u`** | **Visual Undotree** (explore full history timeline) |
 
 ---
 

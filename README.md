@@ -2,6 +2,8 @@
 
 A modern, blazing-fast, and aesthetic Neovim IDE setup powered by [LazyVim](https://lazyvim.org), featuring the Solarized Osaka theme, intelligent LSP diagnostics, automatic code formatting, and one-key execution.
 
+> 📖 **Looking for all commands & shortcuts?** Check out the complete [**CHEATSHEET.md**](CHEATSHEET.md).
+
 ---
 
 ## ⚡ 1-Line Quick Install
