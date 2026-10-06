@@ -47,29 +47,51 @@ local function submit_atcoder()
 	open_floating_terminal("acc submit " .. vim.fn.fnameescape(fname), "⚡ AtCoder Live Submitter")
 end
 
+-- Helper to switch/create another language file in the same problem folder
+local function switch_problem_lang(target_ext)
+	local cur_path = vim.fn.expand("%:p")
+	if cur_path == "" then
+		vim.notify("⚠️ No problem file currently open.", vim.log.levels.WARN)
+		return
+	end
+	local no_ext = vim.fn.expand("%:p:r")
+	local target_file = no_ext .. "." .. target_ext
+	vim.cmd("edit " .. vim.fn.fnameescape(target_file))
+	vim.notify("📁 Switched to " .. target_ext:upper() .. ": " .. vim.fn.fnamemodify(target_file, ":t"), vim.log.levels.INFO, { title = "CP Language Switcher" })
+end
+
 return {
 	{
 		"xeluxee/competitest.nvim",
+		lazy = false,
 		dependencies = { "MunifTanjim/nui.nvim" },
-		cmd = { "CompetiTest" },
-		init = function()
-			-- Start local bridge daemon silently in background
-			pcall(vim.fn.jobstart, { "python3", vim.fn.expand("~/.local/bin/cp_bridge.py") })
-		end,
 		keys = {
 			{ "<leader>tr", "<cmd>CompetiTest run<cr>", desc = "Run Test Cases (Visual Popup)" },
 			{ "<leader>cs", submit_codeforces, desc = "Submit to Codeforces (cs)" },
-			{ "<leader>ts", submit_codeforces, desc = "Submit to Codeforces (via Browser Bridge)" },
-			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (via acc submit)" },
+			{ "<leader>ts", submit_codeforces, desc = "Submit to Codeforces" },
+			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (acc submit)" },
 			{ "<leader>ta", "<cmd>CompetiTest add_testcase<cr>", desc = "Add Custom Test Case" },
 			{ "<leader>te", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit Test Case" },
 			{ "<leader>td", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete Test Case" },
-			{ "<leader>tp", "<cmd>CompetiTest receive problem<cr>", desc = "Receive Problem" },
-			{ "<leader>tc", "<cmd>CompetiTest receive contest<cr>", desc = "Receive Entire Contest" },
 			{ "<leader>tu", "<cmd>CompetiTest show_ui<cr>", desc = "Toggle Results Popup" },
+			-- Language switchers inside the same problem folder
+			{ "<leader>tc", function() switch_problem_lang("cpp") end, desc = "Problem: Open C++ (.cpp)" },
+			{ "<leader>tp", function() switch_problem_lang("py") end, desc = "Problem: Open Python (.py)" },
+			{ "<leader>tg", function() switch_problem_lang("rs") end, desc = "Problem: Open Rust (.rs)" },
 		},
 		opts = {
 			start_receiving_persistently_on_setup = true,
+			companion_port = 27121,
+			receive_print_message = true,
+			save_current_file = true,
+			save_all_files = false,
+			open_received_problems = true,
+			open_received_contests = true,
+			replace_received_testcases = true,
+			received_problems_prompt_path = false,
+			received_contests_prompt_directory = false,
+			received_contests_prompt_extension = false,
+			received_files_extension = "cpp",
 			received_problems_path = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
 			received_contests_directory = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(CONTEST)",
 			received_contests_problems_path = "$(PROBLEM)/$(PROBLEM).$(FEXT)",
@@ -88,10 +110,6 @@ return {
 			testcases_directory = ".",
 			testcases_use_single_file = false,
 			testcases_auto_detect_storage = true,
-			companion_port = 27121,
-			receive_print_message = true,
-			save_current_file = true,
-			save_all_files = false,
 			runner_ui = {
 				interface = "popup",
 				selector_show_nu = false,
