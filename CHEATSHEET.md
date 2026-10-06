@@ -297,4 +297,5 @@ Automatically compiles your code, runs all test cases, and opens a split screen 
 | **`<Space> l d`** | Show Problem Description (`:Leet desc`) | Press `q` |
 | **`<Space> l l`** | List All Problems (`:Leet list`) | Press `Esc` |
 | **`<Space> l r`** | Pick Random Problem (`:Leet random`) | — |
+| **`<Space> l c`** | **Switch Language** (C++, Python, Rust, Java, Go...) (`:Leet lang`) | — |
 | **`<Space> l q`** | **Exit LeetCode Session** (`:Leet exit`) | — |
