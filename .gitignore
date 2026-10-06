@@ -12,3 +12,10 @@ Thumbs.db
 # Logs & temp
 *.log
 /scratch/
+
+# Security & Credentials
+*cookie*
+*session*
+*.env*
+*.token*
+secrets.*
