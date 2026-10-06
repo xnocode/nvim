@@ -1,7 +1,32 @@
 local function submit_codeforces()
-	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local code = table.concat(lines, "\n")
-	local fname = vim.fn.expand("%:t:r")
+	local bufnr = vim.api.nvim_get_current_buf()
+	local ft = vim.bo[bufnr].filetype
+	local bname = vim.api.nvim_buf_get_name(bufnr)
+
+	-- If user triggered from inside CompetiTest popup or floating window, find the actual code buffer
+	if ft == "competitest" or bname:match("CompetiTest") or vim.api.nvim_win_get_config(0).relative ~= "" then
+		for _, b in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.api.nvim_buf_is_loaded(b) then
+				local name = vim.api.nvim_buf_get_name(b)
+				if name:match("%.cpp$") or name:match("%.py$") or name:match("%.c$") or name:match("%.rs$") then
+					bufnr = b
+					break
+				end
+			end
+		end
+	end
+
+	local filepath = vim.api.nvim_buf_get_name(bufnr)
+	if filepath == "" then
+		vim.notify("⚠️ Please open a problem file before submitting.", vim.log.levels.WARN)
+		return
+	end
+
+	vim.cmd("silent! write")
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+	local code = table.concat(lines, "
+")
+	local fname = vim.fn.fnamemodify(filepath, ":t:r")
 
 	-- Ensure bridge is running
 	vim.fn.jobstart({ "python3", vim.fn.expand("~/.local/bin/cp_bridge.py") })
@@ -25,13 +50,14 @@ local function submit_codeforces()
 	}, {
 		on_exit = function(_, code_exit)
 			if code_exit == 0 then
-				vim.notify("📡 Sent to Codeforces in your browser! Submitting now...", vim.log.levels.INFO, { title = "Codeforces Bridge" })
+				vim.notify("📡 Sent " .. fname .. " to Codeforces in Chrome! Submitting...", vim.log.levels.INFO, { title = "Codeforces Bridge" })
 			else
 				vim.notify("❌ Bridge connection failed. Make sure cp_bridge is running.", vim.log.levels.ERROR)
 			end
 		end,
 	})
 end
+
 
 local function submit_atcoder()
 	local fname = vim.fn.expand("%:p")
