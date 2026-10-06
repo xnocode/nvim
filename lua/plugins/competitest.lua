@@ -1,10 +1,62 @@
+local function submit_codeforces()
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	local code = table.concat(lines, "\n")
+	local fname = vim.fn.expand("%:t:r")
+
+	-- Ensure bridge is running
+	vim.fn.jobstart({ "python3", vim.fn.expand("~/.local/bin/cp_bridge.py") })
+
+	-- Send code to local bridge
+	local payload = vim.fn.json_encode({
+		problem = fname,
+		code = code,
+	})
+
+	vim.fn.jobstart({
+		"curl",
+		"-s",
+		"-X",
+		"POST",
+		"-H",
+		"Content-Type: application/json",
+		"-d",
+		payload,
+		"http://127.0.0.1:27122/submit",
+	}, {
+		on_exit = function(_, code_exit)
+			if code_exit == 0 then
+				vim.notify("📡 Sent to Codeforces in your browser! Submitting now...", vim.log.levels.INFO, { title = "Codeforces Bridge" })
+			else
+				vim.notify("❌ Bridge connection failed. Make sure cp_bridge is running.", vim.log.levels.ERROR)
+			end
+		end,
+	})
+end
+
+local function submit_atcoder()
+	local fname = vim.fn.expand("%:p")
+	if fname == "" then
+		vim.notify("⚠️ Please save your file before submitting.", vim.log.levels.WARN)
+		return
+	end
+	vim.cmd("silent! write")
+	vim.notify("🚀 Submitting to AtCoder via acc...", vim.log.levels.INFO, { title = "AtCoder CLI" })
+	vim.cmd("split | terminal acc submit " .. vim.fn.fnameescape(fname))
+end
+
 return {
 	{
 		"xeluxee/competitest.nvim",
 		dependencies = { "MunifTanjim/nui.nvim" },
 		cmd = { "CompetiTest" },
+		init = function()
+			-- Start local bridge daemon silently in background
+			pcall(vim.fn.jobstart, { "python3", vim.fn.expand("~/.local/bin/cp_bridge.py") })
+		end,
 		keys = {
-			{ "<leader>tr", "<cmd>CompetiTest run<cr>", desc = "Run Test Cases (Visual Popup & Diff)" },
+			{ "<leader>tr", "<cmd>CompetiTest run<cr>", desc = "Run Test Cases (Visual Popup)" },
+			{ "<leader>ts", submit_codeforces, desc = "Submit to Codeforces (via Browser Bridge)" },
+			{ "<leader>as", submit_atcoder, desc = "Submit to AtCoder (via acc submit)" },
 			{ "<leader>ta", "<cmd>CompetiTest add_testcase<cr>", desc = "Add Custom Test Case" },
 			{ "<leader>te", "<cmd>CompetiTest edit_testcase<cr>", desc = "Edit Test Case" },
 			{ "<leader>td", "<cmd>CompetiTest delete_testcase<cr>", desc = "Delete Test Case" },
@@ -14,6 +66,9 @@ return {
 		},
 		opts = {
 			start_receiving_persistently_on_setup = true,
+			received_problems_path = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(PROBLEM)/$(PROBLEM).$(FEXT)",
+			received_contests_directory = "$(HOME)/Downloads/programming/cp/$(JUDGE)/$(CONTEST)",
+			received_contests_problems_path = "$(PROBLEM)/$(PROBLEM).$(FEXT)",
 			compile_directory = ".",
 			compile_command = {
 				c = { exec = "gcc", args = { "-Wall", "-O2", "$(FNAME)", "-o", "$(FNOEXT)" } },
