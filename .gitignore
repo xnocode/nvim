@@ -1,0 +1,14 @@
+# Swap & undo files
+*.swp
+*.swo
+*.swn
+*.swm
+*.un~
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+/scratch/
