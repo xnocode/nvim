@@ -272,6 +272,9 @@ Automatically compiles your code, runs all test cases, and opens a split screen 
 | Shortcut | Action | How to Close |
 | :--- | :--- | :--- |
 | **`<Space> t r`** | **Run All Test Cases** (Visual popup with diffs) | Press **`q`** or **`Esc`** |
+| **`<Space> t c`** | **Switch to C++** (`.cpp`) in same problem folder | — |
+| **`<Space> t p`** | **Switch to Python** (`.py`) in same problem folder | — |
+| **`<Space> t g`** | **Switch to Rust** (`.rs`) in same problem folder | — |
 | **`<Space> c s`** *(or `ts`)* | **Submit to Codeforces** (Submits via cf-submit with live verdict) | — |
 | **`<Space> a s`** | **Submit to AtCoder** (Submits via official `acc submit`) | Press **`q`** |
 | **`<Space> t a`** | **Add Custom Test Case** (manually enter input & output) | Press **`Esc`** |
