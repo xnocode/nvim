@@ -272,7 +272,7 @@ Automatically compiles your code, runs all test cases, and opens a split screen 
 | Shortcut | Action | How to Close |
 | :--- | :--- | :--- |
 | **`<Space> t r`** | **Run All Test Cases** (Visual popup with diffs) | Press **`q`** or **`Esc`** |
-| **`<Space> c s`** *(or `ts`)* | **Submit to Codeforces** (Auto-submits in your Chrome tab) | — |
+| **`<Space> c s`** *(or `ts`)* | **Submit to Codeforces** (Submits via cf-tool CLI) | — |
 | **`<Space> a s`** | **Submit to AtCoder** (Submits via official `acc submit`) | Press **`q`** |
 | **`<Space> t a`** | **Add Custom Test Case** (manually enter input & output) | Press **`Esc`** |
 | **`<Space> t e`** | **Edit an Existing Test Case** | Press **`Esc`** |
