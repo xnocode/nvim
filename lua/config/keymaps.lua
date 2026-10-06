@@ -90,3 +90,9 @@ keymap.set("n", "<C-y>", "<C-r>", { desc = "Redo (Ctrl+y)" })
 keymap.set("i", "<C-y>", "<C-o><C-r>", { desc = "Redo in Insert Mode" })
 keymap.set("n", "<C-S-z>", "<C-r>", { desc = "Redo (Ctrl+Shift+z)" })
 keymap.set("i", "<C-S-z>", "<C-o><C-r>", { desc = "Redo in Insert Mode" })
+
+-- Natural navigation through wrapped lines
+keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Down (visual line)" })
+keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Up (visual line)" })
+keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
