@@ -17,6 +17,7 @@ return {
 			{ "<leader>ll", "<cmd>Leet list<cr>", desc = "LeetCode: List Problems" },
 			{ "<leader>ld", "<cmd>Leet desc<cr>", desc = "LeetCode: Show Problem Description" },
 			{ "<leader>lr", "<cmd>Leet random<cr>", desc = "LeetCode: Pick Random Problem" },
+			{ "<leader>lc", "<cmd>Leet lang<cr>", desc = "LeetCode: Switch Language (C++, Python, Rust...)" },
 			{ "<leader>lq", "<cmd>Leet exit<cr>", desc = "LeetCode: Exit / Close" },
 		},
 		opts = {
