@@ -171,7 +171,22 @@ return {
 
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		enabled = false,
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		ft = { "markdown", "mdx" },
+		opts = {
+			heading = {
+				sign = false,
+				icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+			},
+			checkbox = {
+				enabled = true,
+			},
+			code = {
+				sign = false,
+				width = "block",
+				right_pad = 1,
+			},
+		},
 	},
 
 	{
